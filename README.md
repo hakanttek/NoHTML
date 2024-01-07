@@ -51,6 +51,6 @@ Contributions are what make the open-source community such an amazing place to l
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
-hakanttek - [@https://hakantek.azurewebsites.net/](https://hakantek.azurewebsites.net/)
+Hakan Tek - [@https://hakantek.azurewebsites.net/](https://hakantek.azurewebsites.net/contact)
 
 Project Link: [https://github.com/hakanttek/NoHTML](https://github.com/hakanttek/NoHTML)
