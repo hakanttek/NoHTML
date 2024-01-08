@@ -1,20 +1,21 @@
-﻿using Microsoft.Extensions.Primitives;
-using NoHTML.App.Extension;
+﻿using NoHTML.FakeJS.ScriptEngine;
 using NoHTML.SharpPage;
-using NoHTML.SharpPage.Attributes;
-using NoHTML.SharpPage.Tags;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using NoHTML.SharpPage.Tags.Attributes.Type;
+using NoHTML.SharpPage.Tags.Scripting;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NoHTML.App.Core
 {
     public class XmlSerializer : ISerializer
     {
-        public string Serialize(IDOMElement element)
+        private IJSRuntimeManager _jSRuntimeManager;
+
+        public XmlSerializer(IJSRuntimeManager jSRuntimeManager) 
+        { 
+            _jSRuntimeManager = jSRuntimeManager;
+        }
+
+        public string Serialize<T>(T element) where T : IDOMElement
         {
             var attributes = element.Attrubites;
 
@@ -25,33 +26,46 @@ namespace NoHTML.App.Core
             var stringBuilder = new StringBuilder();
 
             //open tag
-            stringBuilder.Append(stringBuilder.Append($"<{tag}"));
+            stringBuilder.Append($"<{tag}");
 
             foreach (var attribute in attributes)
                 if (attribute.Value is not null)
                     if (attribute.Value is BoolAttr boolAttr)
                     {
                         if(boolAttr.Value)
-                            stringBuilder.Append($" {attribute.Key}");
+                            stringBuilder.Append($" {attribute.Key.ToLower()}");
                     }
                     else
-                        stringBuilder.Append($" {attribute.Key}=\"{attribute.Value}\"");
-            
-            stringBuilder.Append(">");
+                        stringBuilder.Append($" {attribute.Key.ToLower()}=\"{attribute.Value.ToString()}\"");
 
-            if(element.InnerText is not null || childrenElements.Any())
+            string? jsCode = _jSRuntimeManager.GetCodeOf(element);
+
+            if(element.InnerText is not null || childrenElements.Any() || jsCode is not null)
             {
-                if(element.InnerText is not  null) { }
+                stringBuilder.Append(">");
+
+                if (element.InnerText?.Length > 0)
                     stringBuilder.AppendLine(element.InnerText);
+
                 foreach (var child in childrenElements)
                     stringBuilder.AppendLine(Serialize(child));
+
+                if (jsCode is not null)
+                {
+                    Script script = new()
+                    {
+                        InnerText = jsCode
+                    };
+
+                    stringBuilder.AppendLine(Serialize(script));
+                }
 
                 return stringBuilder.AppendLine($"</{tag}>").ToString();
             }
             else if (element.IsSelfClosing)
-                return stringBuilder.Append($"</{tag}>").ToString();
+                return stringBuilder.Append($"/>").ToString();
             else
-                return stringBuilder.Append($"</{tag}>").ToString();
+                return stringBuilder.Append($">").ToString();
         }
     }
 }

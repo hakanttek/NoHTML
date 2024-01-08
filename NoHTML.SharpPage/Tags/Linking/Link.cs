@@ -2,5 +2,8 @@
 {
     public class Link : DOMElement
     {
+        public Link() { 
+            IsSelfClosing = false;
+        }
     }
 }

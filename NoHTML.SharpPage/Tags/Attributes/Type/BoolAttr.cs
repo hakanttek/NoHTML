@@ -1,4 +1,4 @@
-﻿namespace NoHTML.SharpPage.Tags
+﻿namespace NoHTML.SharpPage.Tags.Attributes.Type
 {
     public class BoolAttr
     {

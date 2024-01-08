@@ -1,6 +1,6 @@
 ﻿namespace NoHTML.SharpPage.Tags.InlineTextSemantic
 {
-    public class A : DOMElement
+    public class A : InlineTextElement
     {
     }
 }

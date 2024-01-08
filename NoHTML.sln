@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoHTML.App", "NoHTML.App\No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoHTML.Web", "NoHTML.Web\NoHTML.Web.csproj", "{B93E1724-2C4A-421D-A4D3-66B966D857E8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoHTML.FakeJS", "NoHTML.FakeJS\NoHTML.FakeJS.csproj", "{FE9D9F7D-E5C2-4CA4-AE02-AAC88B835C78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B93E1724-2C4A-421D-A4D3-66B966D857E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B93E1724-2C4A-421D-A4D3-66B966D857E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B93E1724-2C4A-421D-A4D3-66B966D857E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE9D9F7D-E5C2-4CA4-AE02-AAC88B835C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE9D9F7D-E5C2-4CA4-AE02-AAC88B835C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE9D9F7D-E5C2-4CA4-AE02-AAC88B835C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE9D9F7D-E5C2-4CA4-AE02-AAC88B835C78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,22 @@
-﻿namespace NoHTML.SharpPage.Tags.TextContent
+﻿using NoHTML.SharpPage.Attributes;
+
+namespace NoHTML.SharpPage.Tags.TextContent
 {
-    public class H : DOMElement
+    public class H : TextContentElement
     {
+        private Level _level;
+        [Ignore]
+        public Level H_Level
+        {
+            get => _level;
+            set
+            {
+                _level = value;
+                Tag = $"h{(int)value}";
+            }
+        }
         public H(Level level) : base() {
-            Tag = $"h{level}";   
+            H_Level = level; 
         }
         public enum Level
         {

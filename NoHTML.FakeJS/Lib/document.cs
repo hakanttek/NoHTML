@@ -1,4 +1,4 @@
-﻿namespace NoHTML.FakeJS
+﻿namespace NoHTML.FakeJS.Lib
 {
     // Simulates JavaScript's document object
     public class document

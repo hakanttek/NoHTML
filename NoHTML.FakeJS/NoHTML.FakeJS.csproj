@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NoHTML.SharpPage\NoHTML.SharpPage.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -9,8 +9,9 @@ namespace NoHTML.App.Core
 {
     public interface ISerializer
     {
-        string Serialize(IDOMElement element);
+        string Serialize<T>(T element) where T : IDOMElement;
 
-        byte[] Serialize(IDOMElement element, Encoding encoding) => encoding.GetBytes(this.Serialize(element)) ?? Array.Empty<byte>();
+        byte[] Serialize<T>(T element, Encoding encoding) where T:IDOMElement => 
+            encoding.GetBytes(this.Serialize<T>(element)) ?? Array.Empty<byte>();
     }
 }

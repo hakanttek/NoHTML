@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NoHTML.FakeJS
+namespace NoHTML.FakeJS.ScriptEngine
 {
-    public class FakeScriptAttribute : Attribute
+    public interface IJSParser
     {
+        string? Parse(string text);
     }
 }

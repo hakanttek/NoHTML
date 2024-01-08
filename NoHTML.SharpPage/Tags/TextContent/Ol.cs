@@ -1,6 +1,6 @@
 ﻿namespace NoHTML.SharpPage.Tags.TextContent
 {
-    public class Ol : DOMElement
+    public class Ol : TextContentElement
     {
     }
 }

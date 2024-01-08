@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NoHTML.FakeJS\NoHTML.FakeJS.csproj" />
     <ProjectReference Include="..\NoHTML.SharpPage\NoHTML.SharpPage.csproj" />
   </ItemGroup>
 

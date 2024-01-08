@@ -1,5 +1,7 @@
 ﻿using NoHTML.SharpPage.Attributes;
 using NoHTML.SharpPage.Tags;
+using NoHTML.SharpPage.Tags.Attributes.Type;
+using NoHTML.SharpPage.Tags.TextContent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +14,6 @@ namespace NoHTML.SharpPage
 {
     public class DOMElement : IDOMElement
     {
-        public static T CastTo<T>(DOMElement obj) where T : IDOMElement
-        {
-            if (obj is T element)
-            {
-                return element;
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    $"This instance of type '{obj.GetType().Name}' cannot be cast to the type '{typeof(T).Name}'."
-                );
-            }
-        }
-
         [Ignore]
         public string Tag { get; set; }
         [Ignore]
@@ -35,75 +23,88 @@ namespace NoHTML.SharpPage
             InnerText = text;
             return this;
         }
-        public T SetInnerText<T>(string value) where T : IDOMElement
-        {
-            SetInnerText(value);
-            return CastTo<T>(this);
-        }
+        public T SetInnerText<T>(string value) where T : IDOMElement => IDOMElement.CastTo<T>(SetInnerText(value));
 
         private bool _isSelfClosing = true;
         [Ignore]
         public bool IsSelfClosing { get => IsVoid || _isSelfClosing; set => _isSelfClosing = value; }
-        
+
+        [Ignore]
         private Dictionary<string, object?> _attributePairs = new();
 
+        [Ignore]
         public dynamic Attributes { get; } = new System.Dynamic.ExpandoObject();
 
+        [Ignore]
         private List<IDOMElement> _children = new();
 
+        [Ignore]
+        public string SourcePath {  get; }
         public DOMElement()
         {
             Tag = GetType().Name.ToLower();
+
+            string path = System.IO.Directory.GetCurrentDirectory();
+            int length = path.Length - path.LastIndexOf('\\');
+            string classPath =  this.GetType().FullName.Substring(length).Replace(".", "\\");
+            SourcePath = new StringBuilder(path).Append("\\").Append(classPath).Append(".cs").ToString();
         }
-                
+
+        [Ignore]
         public bool IsVoid => InnerText is null || !Children.Any();
         
-        public IDOMElement SetAttribute(string name, object value)
+        public IDOMElement SetAttribute(string name, object value) => SetAttribute<IDOMElement>(name, value);
+
+        public T SetAttribute<T>(string name, object value) where T : IDOMElement
         {
             _attributePairs[name] = value;
-            return this;
+            return IDOMElement.CastTo<T>(this);
         }
 
-        public T SetAttribute<T>(string name, string value) where T : IDOMElement
-        {
-            SetAttribute(name, value);
-            return CastTo<T>(this);
-        }
-
-        public IDOMElement AppendChild(IDOMElement element)
-        {
-            _children.Add(element);
-            return this;
-        }
+        public IDOMElement AppendChild(IDOMElement child) => AppendChild<IDOMElement>(child);
         public T AppendChild<T>(IDOMElement child) where T : IDOMElement
         {
-            AppendChild(child);
-            return CastTo <T>(this);
+            _children.Add(child);
+            return IDOMElement.CastTo<T>(this);
         }
         private IEnumerable<KeyValuePair<string, object?>> GetDynamicAttributes()
         {
-            foreach (var property in (IDictionary<string, Object>)Attributes)
+            foreach (var property in Attributes)
                 yield return KeyValuePair.Create<string, object?>(property.Key, property.Value);
         }
 
-        private IEnumerable<PropertyInfo> GetNonIgnoredPublicInstances() => 
-            GetType()
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => !Attribute.IsDefined(p, typeof(IgnoreAttribute)));
-
-        public IDOMElement Arrange(Action<IDOMElement> arrangement)
+        private IEnumerable<PropertyInfo> GetNonIgnoredPublicInstances()
         {
-            arrangement(this);
-            return this;
+            var props = GetType()
+                .GetProperties().Where(p => !Attribute.IsDefined(p, typeof(IgnoreAttribute)));
+
+            return props;
         }
-        public T Arrange<T>(Action<T> arrangement) where T : IDOMElement => Arrange(arrangement);
+        public IDOMElement Arrange(params Action<IDOMElement>[] arrangements) => Arrange<IDOMElement>(arrangements);
+        public T Arrange<T>(params Action<T>[] arrangements) where T : IDOMElement
+        {
+            T element = IDOMElement.CastTo<T>(this);
+            foreach (var arrangement in arrangements)
+                arrangement(element);
+
+            return  IDOMElement.CastTo<T>(element);
+        }
 
         [Ignore]
         public IEnumerable<KeyValuePair<string, object?>> Attrubites =>
             GetNonIgnoredPublicInstances()
+                .Where(p => !typeof(IDOMElement).IsAssignableFrom(p.PropertyType))
                 .Select(p => KeyValuePair.Create(p.Name, p.GetValue(this)))
                 .Union(_attributePairs)
                 .Union(GetDynamicAttributes());
+
+        public IDOMElement AppendClass(string className) => AppendClass<IDOMElement>(className);
+        public T AppendClass<T>(string className) where T : IDOMElement
+        {
+            this.Class ??= new StringBuilder();
+            this.Class.AppendClass(className);
+            return IDOMElement.CastTo<T>(this);
+        }
 
         [Ignore]
         public IEnumerable<IDOMElement> Children =>
@@ -111,11 +112,15 @@ namespace NoHTML.SharpPage
                 .Where(p => typeof(IDOMElement).IsAssignableFrom(p.PropertyType))
                 .Select(p => p.GetValue(this))
                 .OfType<IDOMElement>()
-                .Union(_children);
+                .Union(_children)
+                .Where(p => !p.Ignore);
+
+        [Ignore]
+        public bool Ignore { get; set; } = false;
 
         //attributes
         public string? Id { get; set; }
-        public string? Class { get; set; }
+        public StringBuilder? Class { get; set; }
         public string? Style { get; set; }
         public string? Title { get; set; }
         public string? Href { get; set; }
@@ -150,5 +155,7 @@ namespace NoHTML.SharpPage
         public string? Enctype { get; set; }
         public bool? Async { get; set; }
         public bool? Defer { get; set; }
+        public string? Integrity { get; set; }
+        public string? Crossorigin { get; set; }
     }
 }
