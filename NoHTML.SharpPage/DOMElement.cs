@@ -157,5 +157,6 @@ namespace NoHTML.SharpPage
         public bool? Defer { get; set; }
         public string? Integrity { get; set; }
         public string? Crossorigin { get; set; }
+        public string? OnClick { get; set; }
     }
 }

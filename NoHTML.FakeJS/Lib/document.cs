@@ -22,18 +22,6 @@
         }
     }
 
-    // Base class for DOM elements
-    public class DOMElement
-    {
-    }
-
-    // Simulates HTML div element
-    public class Div : DOMElement
-    {
-        public string Id { get; set; }
-        // Other properties and methods
-    }
-
     // Represents a generic HTML element
     public class Element : EventTarget
     {

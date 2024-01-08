@@ -14,11 +14,5 @@ namespace NoHTML.Web.NoHTML
 
             Body.SetBootstrapColorMode("dark");
         }
-
-        [JavaScript]
-        private void Script()
-        {
-            window.alert("This code written with FakeJS.");
-        }
     }
 }

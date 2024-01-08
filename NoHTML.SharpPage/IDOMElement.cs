@@ -71,5 +71,6 @@ namespace NoHTML.SharpPage
         string? Enctype { get; set; }
         bool? Async { get; set; }
         bool? Defer { get; set; }
+        string? OnClick { get; set; }
     }
 }
