@@ -25,18 +25,6 @@ NoHTML is an innovative framework aimed at simplifying web development by allowi
    ```
    git clone https://github.com/hakanttek/NoHTML.git
    ```
-2. Navigate to the project directory:
-   ```
-   cd NoHTML
-   ```
-3. Install dependencies (if any):
-   ```
-   // Instructions for installing any dependencies
-   ```
-4. Run the application:
-   ```
-   // Instructions for running the application
-   ```
 
 ## Contributing
 
