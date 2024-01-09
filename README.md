@@ -2,7 +2,7 @@
 # NoHTML
 
 NoHTML is an innovative framework aimed at simplifying web development by allowing C# developers to create dynamic web interfaces with a C#-centric approach. It offers a unique way to build web applications where traditional HTML and JavaScript are abstracted behind intuitive C# code, ideal for those who are more familiar with C# and .NET ecosystem.
-![Alt text]([URL_to_image](https://studthowlde-my.sharepoint.com/personal/hakan_tek_stud_th-owl_de/Documents/Belgeler/PublishDoc/NoHTML/Flow.png?Web=1) "Optional title")
+![Alt text](https://studthowlde-my.sharepoint.com/personal/hakan_tek_stud_th-owl_de/Documents/Belgeler/PublishDoc/NoHTML/Flow.png?Web=1 "Optional title")
 
 **Note:** This project is currently in the development phase and subject to change.
 
